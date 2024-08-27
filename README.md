@@ -208,7 +208,7 @@ To perform tests of the API using axios:
 1. Ensure the API server is running.
 2. Run the test script:
    ```bash
-   node tests/axiosTest.js
+   node tests/test.js
    ```
 
 #### Expected Results:
@@ -216,6 +216,7 @@ To perform tests of the API using axios:
 The test script will:
 - Index several users in Elasticsearch.
 - Retrieve all indexed users.
-- Perform an exact search and a fuzzy search.
+- Perform both exact and fuzzy searches.
+- Write the logs to a `logs.txt` file.
 
-Results will be displayed in the console, showing whether each operation was successful or not.
+You can open the `logs.txt` file in the `tests` folder to review the logs.

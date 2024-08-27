@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { log } = require("./logger");
 
 const API_URL = "http://localhost:3000/api";
 
@@ -6,9 +7,9 @@ const API_URL = "http://localhost:3000/api";
 async function indexUser(user) {
   try {
     const response = await axios.post(`${API_URL}/index/user`, user);
-    console.log("Usuario indexado:", response.data);
+    log(`Usuario indexado: ${JSON.stringify(response.data)}`);
   } catch (error) {
-    console.error("Error al indexar usuario:", error.response ? error.response.data : error.message);
+    log(`Error al indexar usuario: ${error.response ? error.response.data : error.message}`);
   }
 }
 
@@ -16,9 +17,9 @@ async function indexUser(user) {
 async function getAllUsers() {
   try {
     const response = await axios.get(`${API_URL}/search/all`);
-    console.log("Todos los usuarios:", response.data);
+    log(`Todos los usuarios: ${JSON.stringify(response.data)}`);
   } catch (error) {
-    console.error("Error al obtener usuarios:", error.response ? error.response.data : error.message);
+    log(`Error al obtener usuarios: ${error.response ? error.response.data : error.message}`);
   }
 }
 
@@ -26,9 +27,9 @@ async function getAllUsers() {
 async function exactSearch(query) {
   try {
     const response = await axios.post(`${API_URL}/search/exact`, { field: "name", query });
-    console.log("Resultados de la búsqueda exacta:", response.data);
+    log(`Resultados de la búsqueda exacta: ${JSON.stringify(response.data)}`);
   } catch (error) {
-    console.error("Error en la búsqueda exacta:", error.response ? error.response.data : error.message);
+    log(`Error en la búsqueda exacta: ${error.response ? error.response.data : error.message}`);
   }
 }
 
@@ -41,9 +42,9 @@ async function fuzzySearch(query, fuzziness, prefixLength) {
       fuzziness,
       prefixLength,
     });
-    console.log("Resultados de la búsqueda difusa:", response.data);
+    log(`Resultados de la búsqueda difusa: ${JSON.stringify(response.data)}`);
   } catch (error) {
-    console.error("Error en la búsqueda difusa:", error.response ? error.response.data : error.message);
+    log(`Error en la búsqueda difusa: ${error.response ? error.response.data : error.message}`);
   }
 }
 
@@ -54,12 +55,10 @@ async function fuzzySearch(query, fuzziness, prefixLength) {
   await indexUser({ id: "2", name: "Bob Smith", email: "bob@example.com", age: 40 });
   await indexUser({ id: "3", name: "Charlie Brown", email: "charlie@example.com", age: 25 });
 
-  // Obtener todos los usuarios indexados
   await getAllUsers();
 
-  // Realizar una búsqueda exacta
   await exactSearch("Alice Johnson");
 
-  // Realizar una búsqueda difusa
   await fuzzySearch("Alice", 2, 1);
 })();
+
