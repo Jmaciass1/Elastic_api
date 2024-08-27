@@ -133,4 +133,89 @@ Node.js API that performs both exact and fuzzy searches in Elasticsearch.
 - **Request Body:**
   ```json
   {
-    "f
+    "field": "name",
+    "query": "Alice Johnson"
+  }
+  ```
+- **Example Request:**
+  ```bash
+  curl -X POST http://localhost:3000/api/search/exact \
+  -H "Content-Type: application/json" \
+  -d '{
+    "field": "name",
+    "query": "Alice Johnson"
+  }'
+  ```
+- **Expected Response:**
+  ```json
+  [
+    {
+      "_id": "1",
+      "_source": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com",
+        "age": 30
+      }
+    }
+  ]
+  ```
+
+#### 5. Fuzzy Search
+
+- **Endpoint:** `/api/search/fuzzy`
+- **Method:** `POST`
+- **Description:** Performs a fuzzy search for users.
+- **Request Body:**
+  ```json
+  {
+    "field": "name",
+    "query": "Alice",
+    "fuzziness": 2,
+    "prefixLength": 1
+  }
+  ```
+- **Example Request:**
+  ```bash
+  curl -X POST http://localhost:3000/api/search/fuzzy \
+  -H "Content-Type: application/json" \
+  -d '{
+    "field": "name",
+    "query": "Alice",
+    "fuzziness": 2,
+    "prefixLength": 1
+  }'
+  ```
+- **Expected Response:**
+  ```json
+  [
+    {
+      "_id": "1",
+      "_source": {
+        "name": "Alice Johnson",
+        "email": "alice@example.com",
+        "age": 30
+      }
+    }
+  ]
+  ```
+
+## Testing
+
+### Running Tests with Axios
+
+To perform tests of the API using axios:
+
+1. Ensure the API server is running.
+2. Run the test script:
+   ```bash
+   node tests/axiosTest.js
+   ```
+
+#### Expected Results:
+
+The test script will:
+- Index several users in Elasticsearch.
+- Retrieve all indexed users.
+- Perform an exact search and a fuzzy search.
+
+Results will be displayed in the console, showing whether each operation was successful or not.
